@@ -1,0 +1,105 @@
+<div class="container-fluid" *ngIf="showScreen">
+
+  <div class="row">
+
+    <div class="col-md-4">
+
+      <div class="user-list-card">
+        <div class="user-card"
+             [ngClass]="user?.phone === selectedUser?.phone && 'active'"
+             *ngFor="let user of userList"
+             (click)="selectUserHandler(user?.phone)"
+        >
+
+          <img [src]="user?.image"
+               [alt]="user?.name"
+               class="avatar"
+          />
+          <p class="username">{{user?.name}}</p>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-8">
+
+      <div class="chat-container">
+        <ng-container *ngIf="selectedUser">
+          <div class="chat-header">
+
+            <img [src]="selectedUser?.image"
+                 [alt]="selectedUser?.name"
+                 class="avatar"
+            />
+            <p class="username">{{selectedUser?.name}}</p>
+
+          </div>
+
+          <div class="chat-body">
+            <div *ngFor="let item of messageArray"
+                 [ngClass]="item?.user === currentUser?.name && 'same-user'"
+            >
+              <p class="message-container">{{item?.message}}</p>
+            </div>
+          </div>
+
+          <div class="chat-footer">
+
+            <div class="row">
+              <div class="col-md-10">
+                <div class="form-group mb-0">
+                  <input type="text"
+                         placeholder="Type a message"
+                         class="form-control"
+                         [(ngModel)]="messageText"
+                         (keyup)="$event.keyCode === 13 && sendMessage()"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-2 text-center align-self-center">
+                <button class="btn btn-primary btn-sm px-3"
+                        (click)="sendMessage()">Send
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </ng-container>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<ng-template #popup let-d="dismiss">
+
+  <div class="modal-header">
+    <h4 class="modal-title">Login</h4>
+  </div>
+
+  <div class="modal-body">
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="form-group">
+          <input type="number"
+                 placeholder="Enter your phone number"
+                 class="form-control"
+                 [(ngModel)]="phone"
+          />
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-sm btn-primary" (click)="login(d)">Login</button>
+  </div>
+
+</ng-template>
